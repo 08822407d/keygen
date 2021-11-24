@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace keygen
 {
-    public partial class Form1 : Form
+    public partial class frm_Main : Form
     {
-        public Form1()
+        public frm_Main()
         {
             InitializeComponent();
+        }
+
+        private void btn_genRegCode_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
