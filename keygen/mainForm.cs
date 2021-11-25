@@ -19,7 +19,9 @@ namespace keygen
 
         private void btn_genRegCode_Click(object sender, EventArgs e)
         {
-
+            Authorize auth = new Authorize("testprog");
+            String regcode = auth.compute_authorise_code(tbx_UserCode.Text);
+            tbx_RegCode.Text = regcode;
         }
     }
 }
