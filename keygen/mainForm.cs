@@ -21,7 +21,14 @@ namespace keygen
         {
             Authorize auth = new Authorize("testprog");
             String regcode = auth.compute_authorise_code(tbx_UserCode.Text);
-            tbx_RegCode.Text = regcode;
         }
+
+        private void btn_genRSAkeys_Click(object sender, EventArgs e)
+        {
+            String[] keys = Authorize.gen_RSAkeys();
+            tbx_RSAprivkey.Text = keys[0];
+            tbx_RSApubkey.Text = keys[1];
+        }
+
     }
 }

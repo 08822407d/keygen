@@ -54,4 +54,18 @@ public class Authorize
         }
         return ret_val;
     }
+
+    /// <summary>
+    /// return[0] is private key
+    /// return[1] is public key
+    /// </summary>
+    /// <returns></returns>
+    static public String[] gen_RSAkeys()
+    {
+        String[] keys = new String[2];
+        RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+        keys[0] = RSA.ToXmlString(true);
+        keys[1] = RSA.ToXmlString(false);
+        return keys;
+    }
 }
