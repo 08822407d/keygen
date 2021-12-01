@@ -56,10 +56,9 @@ public class Authorize
     }
 
     /// <summary>
-    /// return[0] is private key
-    /// return[1] is public key
+    ///      
     /// </summary>
-    /// <returns></returns>
+    /// <returns>return[0] is private key, return[1] is public key</returns>
     static public String[] gen_RSAkeys()
     {
         String[] keys = new String[2];
@@ -67,5 +66,33 @@ public class Authorize
         keys[0] = RSA.ToXmlString(true);
         keys[1] = RSA.ToXmlString(false);
         return keys;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pubkey"></param>
+    /// <param name="content"></param>
+    /// <returns></returns>
+    static public byte[] RSAencrypt(string pubkey, string content)
+    {
+        ASCIIEncoding byteconv = new ASCIIEncoding();
+        RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+        RSA.FromXmlString(pubkey);
+        return RSA.Encrypt(byteconv.GetBytes(content), false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="privkey"></param>
+    /// <param name="content"></param>
+    /// <returns></returns>
+    static public string RSAdecrypt(string privkey, byte[] content)
+    {
+        ASCIIEncoding strconv = new ASCIIEncoding();
+        RSACryptoServiceProvider RSA = new RSACryptoServiceProvider();
+        RSA.FromXmlString(privkey);
+        return strconv.GetString(RSA.Decrypt(content, false));
     }
 }
