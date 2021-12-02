@@ -95,4 +95,16 @@ public class Authorize
         RSA.FromXmlString(privkey);
         return strconv.GetString(RSA.Decrypt(content, false));
     }
+
+    static public byte[] hexStr_to_byteArr(string hexstr)
+    {
+        int len = hexstr.Length / 2;
+        byte[] bytearr = new byte[len];
+
+        for (int i = 0; i < len; i++)
+        {
+            bytearr[i] = Convert.ToByte(hexstr.Substring(i * 2, 2), 16);
+        }   
+        return bytearr;
+    }
 }
