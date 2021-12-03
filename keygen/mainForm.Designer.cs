@@ -30,7 +30,7 @@
         {
             this.main_tabctrl = new System.Windows.Forms.TabControl();
             this.tabpg_User = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.grpBx_UserAuth = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbx_content = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,7 +39,7 @@
             this.tbx_UserCode = new System.Windows.Forms.TextBox();
             this.btn_genCert = new System.Windows.Forms.Button();
             this.tabpg_Developer = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grpBx_GenKeys = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tbx_RSAprivkey = new System.Windows.Forms.TextBox();
@@ -47,9 +47,9 @@
             this.btn_genRSAkeys = new System.Windows.Forms.Button();
             this.main_tabctrl.SuspendLayout();
             this.tabpg_User.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.grpBx_UserAuth.SuspendLayout();
             this.tabpg_Developer.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.grpBx_GenKeys.SuspendLayout();
             this.SuspendLayout();
             // 
             // main_tabctrl
@@ -65,7 +65,7 @@
             // tabpg_User
             // 
             this.tabpg_User.BackColor = System.Drawing.SystemColors.Control;
-            this.tabpg_User.Controls.Add(this.groupBox2);
+            this.tabpg_User.Controls.Add(this.grpBx_UserAuth);
             this.tabpg_User.Location = new System.Drawing.Point(4, 25);
             this.tabpg_User.Name = "tabpg_User";
             this.tabpg_User.Padding = new System.Windows.Forms.Padding(3);
@@ -73,21 +73,21 @@
             this.tabpg_User.TabIndex = 0;
             this.tabpg_User.Text = "用户功能";
             // 
-            // groupBox2
+            // grpBx_UserAuth
             // 
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.tbx_content);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.tbx_pubkey);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.tbx_UserCode);
-            this.groupBox2.Controls.Add(this.btn_genCert);
-            this.groupBox2.Location = new System.Drawing.Point(6, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(756, 213);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "用户授权";
+            this.grpBx_UserAuth.Controls.Add(this.label5);
+            this.grpBx_UserAuth.Controls.Add(this.tbx_content);
+            this.grpBx_UserAuth.Controls.Add(this.label2);
+            this.grpBx_UserAuth.Controls.Add(this.tbx_pubkey);
+            this.grpBx_UserAuth.Controls.Add(this.label1);
+            this.grpBx_UserAuth.Controls.Add(this.tbx_UserCode);
+            this.grpBx_UserAuth.Controls.Add(this.btn_genCert);
+            this.grpBx_UserAuth.Location = new System.Drawing.Point(6, 6);
+            this.grpBx_UserAuth.Name = "grpBx_UserAuth";
+            this.grpBx_UserAuth.Size = new System.Drawing.Size(756, 213);
+            this.grpBx_UserAuth.TabIndex = 0;
+            this.grpBx_UserAuth.TabStop = false;
+            this.grpBx_UserAuth.Text = "用户授权";
             // 
             // label5
             // 
@@ -150,7 +150,7 @@
             // tabpg_Developer
             // 
             this.tabpg_Developer.BackColor = System.Drawing.SystemColors.Control;
-            this.tabpg_Developer.Controls.Add(this.groupBox1);
+            this.tabpg_Developer.Controls.Add(this.grpBx_GenKeys);
             this.tabpg_Developer.Location = new System.Drawing.Point(4, 25);
             this.tabpg_Developer.Name = "tabpg_Developer";
             this.tabpg_Developer.Padding = new System.Windows.Forms.Padding(3);
@@ -158,19 +158,19 @@
             this.tabpg_Developer.TabIndex = 1;
             this.tabpg_Developer.Text = "开发者功能";
             // 
-            // groupBox1
+            // grpBx_GenKeys
             // 
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.tbx_RSAprivkey);
-            this.groupBox1.Controls.Add(this.tbx_RSApubkey);
-            this.groupBox1.Controls.Add(this.btn_genRSAkeys);
-            this.groupBox1.Location = new System.Drawing.Point(6, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(756, 120);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "生成秘钥对";
+            this.grpBx_GenKeys.Controls.Add(this.label4);
+            this.grpBx_GenKeys.Controls.Add(this.label3);
+            this.grpBx_GenKeys.Controls.Add(this.tbx_RSAprivkey);
+            this.grpBx_GenKeys.Controls.Add(this.tbx_RSApubkey);
+            this.grpBx_GenKeys.Controls.Add(this.btn_genRSAkeys);
+            this.grpBx_GenKeys.Location = new System.Drawing.Point(6, 3);
+            this.grpBx_GenKeys.Name = "grpBx_GenKeys";
+            this.grpBx_GenKeys.Size = new System.Drawing.Size(756, 120);
+            this.grpBx_GenKeys.TabIndex = 0;
+            this.grpBx_GenKeys.TabStop = false;
+            this.grpBx_GenKeys.Text = "生成秘钥对";
             // 
             // label4
             // 
@@ -225,11 +225,11 @@
             this.Text = "注册机";
             this.main_tabctrl.ResumeLayout(false);
             this.tabpg_User.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.grpBx_UserAuth.ResumeLayout(false);
+            this.grpBx_UserAuth.PerformLayout();
             this.tabpg_Developer.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grpBx_GenKeys.ResumeLayout(false);
+            this.grpBx_GenKeys.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -239,13 +239,13 @@
         private System.Windows.Forms.TabControl main_tabctrl;
         private System.Windows.Forms.TabPage tabpg_User;
         private System.Windows.Forms.TabPage tabpg_Developer;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpBx_GenKeys;
         private System.Windows.Forms.Button btn_genRSAkeys;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbx_RSAprivkey;
         private System.Windows.Forms.TextBox tbx_RSApubkey;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpBx_UserAuth;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbx_UserCode;
         private System.Windows.Forms.Button btn_genCert;

@@ -22,7 +22,7 @@ public class Authorize
         String prog_name_val = tmp_val.Replace("-", String.Empty);
         Auth_Req_str = prog_name_val + mac_str;
 
-        authorise_code = compute_authorise_code(Auth_Req_str);
+        authorise_code = SHA512encrypt(Auth_Req_str);
 	}
     
     public String get_authorise_request_str()
@@ -30,10 +30,13 @@ public class Authorize
         return Auth_Req_str;
     }
 
-    public String compute_authorise_code(String input)
+    static public string SHA512encrypt(string input)
     {
         SHA512 ident = SHA512.Create();
-        return BitConverter.ToString(Encoding.ASCII.GetBytes(input)).Replace("-", String.Empty);
+        byte[] reqcode = Encoding.ASCII.GetBytes(input);
+        byte[] hashval = ident.ComputeHash(new MemoryStream(reqcode));
+        string hv_str = BitConverter.ToString(hashval).Replace("-", string.Empty);
+        return hv_str;
     }
 
     public String get_authorise_code()
