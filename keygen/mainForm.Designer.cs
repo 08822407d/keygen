@@ -100,9 +100,9 @@
             // 
             // tbx_content
             // 
-            this.tbx_content.Location = new System.Drawing.Point(131, 122);
+            this.tbx_content.Location = new System.Drawing.Point(121, 122);
             this.tbx_content.Name = "tbx_content";
-            this.tbx_content.Size = new System.Drawing.Size(597, 25);
+            this.tbx_content.Size = new System.Drawing.Size(607, 25);
             this.tbx_content.TabIndex = 11;
             // 
             // label2
@@ -116,9 +116,9 @@
             // 
             // tbx_pubkey
             // 
-            this.tbx_pubkey.Location = new System.Drawing.Point(131, 78);
+            this.tbx_pubkey.Location = new System.Drawing.Point(121, 78);
             this.tbx_pubkey.Name = "tbx_pubkey";
-            this.tbx_pubkey.Size = new System.Drawing.Size(597, 25);
+            this.tbx_pubkey.Size = new System.Drawing.Size(607, 25);
             this.tbx_pubkey.TabIndex = 9;
             // 
             // label1
@@ -132,9 +132,9 @@
             // 
             // tbx_UserCode
             // 
-            this.tbx_UserCode.Location = new System.Drawing.Point(131, 33);
+            this.tbx_UserCode.Location = new System.Drawing.Point(121, 33);
             this.tbx_UserCode.Name = "tbx_UserCode";
-            this.tbx_UserCode.Size = new System.Drawing.Size(597, 25);
+            this.tbx_UserCode.Size = new System.Drawing.Size(607, 25);
             this.tbx_UserCode.TabIndex = 6;
             // 
             // btn_genCert

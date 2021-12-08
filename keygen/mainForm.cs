@@ -17,6 +17,7 @@ namespace keygen
         public frm_Main()
         {
             InitializeComponent();
+            Authorize test = new Authorize("testprog");
         }
 
         private void btn_genRSAkeys_Click(object sender, EventArgs e)

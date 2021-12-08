@@ -7,27 +7,33 @@ using System.Net.NetworkInformation;
 
 public class Authorize
 {
-    private String certificateFile_path = "./cert.txt";
-    private String Auth_Req_str;
-    private String authorise_code;
-        
+    private string certificateFile_path = "./cert.txt";
+    private string user_AuthReq_Str ;
+    private string authorise_Code ;
 
-	public Authorize(String program_name)
+	public Authorize(string progname)
 	{
         // create the authorise request code authorise system
-        // 
-        NetworkInterface ni = NetworkInterface.GetAllNetworkInterfaces()[0];
-        string mac_str = ni.GetPhysicalAddress().ToString();
-        String tmp_val = BitConverter.ToString(Encoding.ASCII.GetBytes(program_name));
-        String prog_name_val = tmp_val.Replace("-", String.Empty);
-        Auth_Req_str = prog_name_val + mac_str;
-
-        authorise_code = SHA512encrypt(Auth_Req_str);
+        user_AuthReq_Str = gen_authorise_request_str(progname);
+        authorise_Code = SHA512encrypt(user_AuthReq_Str);
 	}
     
-    public String get_authorise_request_str()
+    static public string gen_authorise_request_str(string program_name)
     {
-        return Auth_Req_str;
+        // get ticks from boot till now and ticks of DateTime
+        string bootticks_hex = Environment.TickCount.ToString("X");
+        string dateticks_hex = DateTime.Now.Ticks.ToString("X");
+        // get MAC address
+        NetworkInterface ni = NetworkInterface.GetAllNetworkInterfaces()[0];
+        string macaddr_hex = ni.GetPhysicalAddress().ToString();
+        // convert program_name ASCII code to hex format
+        string tmp_val = BitConverter.ToString(Encoding.ASCII.GetBytes(program_name));
+        string progname_hex = tmp_val.Replace("-", string.Empty);
+
+        // concatenate all these strings
+        string ret_val = progname_hex + macaddr_hex + bootticks_hex + dateticks_hex;
+
+        return ret_val;
     }
 
     static public string SHA512encrypt(string input)
@@ -41,12 +47,12 @@ public class Authorize
 
     public String get_authorise_code()
     {
-        return authorise_code;
+        return authorise_Code;
     }
 
     public String verify()
     {
-        String ret_val = get_authorise_request_str();
+        String ret_val = gen_authorise_request_str("testprog");
         if (File.Exists(certificateFile_path))
         {
             String[] lines = File.ReadAllLines(certificateFile_path);
