@@ -36,6 +36,15 @@ public class Authorize
         return ret_val;
     }
 
+    public string get_authorise_code()
+    {
+        return authorise_Code;
+    }
+    public string get_userreq_code()
+    {
+        return user_AuthReq_Str;
+    }
+
     static public string SHA512encrypt(string input)
     {
         SHA512 ident = SHA512.Create();
@@ -43,11 +52,6 @@ public class Authorize
         byte[] hashval = ident.ComputeHash(new MemoryStream(reqcode));
         string hv_str = BitConverter.ToString(hashval).Replace("-", string.Empty);
         return hv_str;
-    }
-
-    public String get_authorise_code()
-    {
-        return authorise_Code;
     }
 
     public String verify()
