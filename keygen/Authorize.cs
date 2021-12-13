@@ -7,12 +7,16 @@ using System.Net.NetworkInformation;
 
 public class Authorize
 {
-    private string certificateFile_path = "./cert.txt";
+    private string auth_info_fname = "./cert.bin";
     private string user_AuthReq_Str ;
     private string authorise_Code ;
 
+    private long latest_time = 0;
+
 	public Authorize(string progname)
 	{
+        this.latest_time = Environment.TickCount / 1000;
+
         // create the authorise request code authorise system
         user_AuthReq_Str = gen_authorise_request_str(progname);
         authorise_Code = SHA512encrypt(user_AuthReq_Str);
@@ -36,15 +40,6 @@ public class Authorize
         return ret_val;
     }
 
-    public string get_authorise_code()
-    {
-        return authorise_Code;
-    }
-    public string get_userreq_code()
-    {
-        return user_AuthReq_Str;
-    }
-
     static public string SHA512encrypt(string input)
     {
         SHA512 ident = SHA512.Create();
@@ -52,20 +47,6 @@ public class Authorize
         byte[] hashval = ident.ComputeHash(new MemoryStream(reqcode));
         string hv_str = BitConverter.ToString(hashval).Replace("-", string.Empty);
         return hv_str;
-    }
-
-    public String verify()
-    {
-        String ret_val = gen_authorise_request_str("testprog");
-        if (File.Exists(certificateFile_path))
-        {
-            String[] lines = File.ReadAllLines(certificateFile_path);
-            if (ret_val.Equals(lines[0]))
-            {
-                ret_val = null;
-            }
-        }
-        return ret_val;
     }
 
     /// <summary>
@@ -120,4 +101,32 @@ public class Authorize
         }   
         return bytearr;
     }
+
+
+    public string get_authorise_code()
+    {
+        return authorise_Code;
+    }
+
+    public string get_userreq_code()
+    {
+        return user_AuthReq_Str;
+    }
+
+    public void read_cert()
+    {
+        if (File.Exists(auth_info_fname))
+        {
+            BinaryReader br = new BinaryReader(File.Open("./cert.bin", FileMode.Open));
+        }
+    }
+
+    public void update_time()
+    {
+        long current_time = Environment.TickCount / 1000;
+        long time_elapsed = current_time - this.latest_time;
+
+        this.latest_time = current_time;
+    }
+
 }
