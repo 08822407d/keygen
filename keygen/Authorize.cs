@@ -11,6 +11,7 @@ public class Authorize
     private string user_AuthReq_Str ;
     private string authorise_Code ;
 
+    bool avilable = false;
     private long latest_time = 0;
 
 	public Authorize(string progname)
@@ -20,6 +21,8 @@ public class Authorize
         // create the authorise request code authorise system
         user_AuthReq_Str = gen_authorise_request_str(progname);
         authorise_Code = SHA512encrypt(user_AuthReq_Str);
+
+        this.avilable = read_cert();
 	}
     
     static public string gen_authorise_request_str(string program_name)
@@ -113,18 +116,32 @@ public class Authorize
         return user_AuthReq_Str;
     }
 
-    public void read_cert()
+    public bool read_cert()
     {
+        bool ret_val = false;
         if (File.Exists(auth_info_fname))
         {
-            BinaryReader br = new BinaryReader(File.Open("./cert.bin", FileMode.Open));
+            BinaryReader br = new BinaryReader(File.Open(auth_info_fname, FileMode.Open));
+            double time = br.ReadDouble();
+            if (time > 0)
+                ret_val = true;
         }
+        return ret_val;
     }
 
     public void update_time()
     {
         long current_time = Environment.TickCount / 1000;
         long time_elapsed = current_time - this.latest_time;
+
+        BinaryReader br = new BinaryReader(File.Open(auth_info_fname, FileMode.Open));
+        double avilable_time = br.ReadDouble();
+        br.Close();
+
+        BinaryWriter bw = new BinaryWriter(File.Open(auth_info_fname, FileMode.Truncate));
+        bw.Write(avilable_time - time_elapsed);
+        bw.Flush();
+        bw.Close();
 
         this.latest_time = current_time;
     }

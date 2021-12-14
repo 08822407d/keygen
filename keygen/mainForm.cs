@@ -18,9 +18,11 @@ namespace keygen
         {
             InitializeComponent();
             //BinaryWriter bw = new BinaryWriter(File.Open("./cert.bin", FileMode.Create));
-            //bw.Write(0.0);
+            //bw.Write((double)101.202);
             //bw.Flush();
             //bw.Close();
+
+            Authorize test = new Authorize("keygen");
         }
 
         private void btn_genRSAkeys_Click(object sender, EventArgs e)
