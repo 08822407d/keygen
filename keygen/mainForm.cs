@@ -23,6 +23,7 @@ namespace keygen
             //bw.Close();
 
             Authorize test = new Authorize("keygen");
+            test.read_certfile("./cert.txt");
         }
 
         private void btn_genRSAkeys_Click(object sender, EventArgs e)
