@@ -5,27 +5,40 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Net.NetworkInformation;
 
+struct extra_info{
+    double avail_time;
+}
+
+public enum ErrType {
+    E_noerr,
+    E_authcode,
+    E_exinfo,
+};
+
 public class Authorize
 {
     private string auth_info_fname = "./cert.bin";
     private string user_AuthReq_Str;
     private string authorise_Code;
 
-    private string RSA_pubkey = "<RSAKeyValue><Modulus>r83mkPS9x1sjGaVQPWs+pJMP2ZaLp+w4IRwAcbo0JnS8fKjV5xmaw8PL0NermCoEUCt6NNSiJT6FFm29ibt06ILRQUlFJBZEHoGMSirXDHeV2EZx5mhnH9CWYRi2GgdsFgYZU8N/nJRJ4gF5mAzA0rznETQKGDQlPa1v+FVCFPk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
-    private string RSA_privkey = "<RSAKeyValue><Modulus>r83mkPS9x1sjGaVQPWs+pJMP2ZaLp+w4IRwAcbo0JnS8fKjV5xmaw8PL0NermCoEUCt6NNSiJT6FFm29ibt06ILRQUlFJBZEHoGMSirXDHeV2EZx5mhnH9CWYRi2GgdsFgYZU8N/nJRJ4gF5mAzA0rznETQKGDQlPa1v+FVCFPk=</Modulus><Exponent>AQAB</Exponent><P>zsbDIj7HYZd3VjrZc962Tj8ihDsdeIv8eSYv56s53ug5UPvech7DfXZN/Lqq25KelGezIkf7OVa+wLF7Pnxhjw==</P><Q>2aenwRoN10cHeMuA3Zn6nv4nDKkLCZf2xlt9jE5cONqZKO+Fqpo08pshHTlJYfEevKJ2EcnFX7hbBgGCtV7M9w==</Q><DP>u12+CfTrBBKU700KKAWCGmr5IurSLJ5kW37v37P3D3ZMIYbpLW2U5MXjqwOWuLol+gHxfznMekuRM9he/eMFHw==</DP><DQ>gwwZyf9I5BxFGGrW7RX/uujlVA8XsTAJCgceAXNQvX6IhwgoH773MDdM6c6LK2hFDGh41F768pYKYARa0Z8Bow==</DQ><InverseQ>GbKOIam1plYIJVa4XGTN/yOsTFt5iEvzFLNhs+gWQIoAKxIPlmg6sRNGjTayOMCUi7EeBfegL+9/4xuBIhaXdQ==</InverseQ><D>B0vkZd/CgKOnsUjLK8FnuCziW4WEBlQngDhJTG8N+wqdSA850X2ejsFxlBlfZdFYnHsxdz/b+u+9VlD3rN+62ln2AC/6vssxjI88P9glsmbrhgDDAT6tSww6b7pGmLM5szP+NBQX6ngWX658PXA8eMchQ/+7rucg5ByPe1TPkIE=</D></RSAKeyValue>";
+    private string RSA_pubkey = "";
+    private string RSA_privkey = "";
 
-    bool avilable = false;
+    bool available = false;
     private long latest_time = 0;
 
-	public Authorize(string progname)
+	public Authorize(string progname, string RSA_pubkey, string RSA_privkey)
 	{
+        this.RSA_pubkey = RSA_pubkey;
+        this.RSA_privkey = RSA_privkey;
+
         this.latest_time = Environment.TickCount / 1000;
 
         // create the authorise request code authorise system
         user_AuthReq_Str = gen_authorise_request_str(progname);
         authorise_Code = SHA512encrypt(user_AuthReq_Str);
 
-        this.avilable = load_avilability();
+        this.available = load_availability();
 	}
     
     static public string gen_authorise_request_str(string program_name)
@@ -119,17 +132,30 @@ public class Authorize
         return user_AuthReq_Str;
     }
 
-    public void read_certfile(string cert_fname)
+    public ErrType read_certfile(string cert_fname)
     {
+        ErrType ret_val = ErrType.E_noerr;
         if (File.Exists(cert_fname))
         {
             string[] lines = File.ReadAllLines(cert_fname);
             string authcode = lines[0];
             string extra_info = RSAdecrypt(this.RSA_privkey, hexStr_to_byteArr(lines[1]));
+
+            double avail_time = 0;
+            bool parse_success = Double.TryParse(extra_info, out avail_time);
+            if (parse_success)
+            {
+
+            }
+            else
+            {
+                ret_val = ErrType.E_exinfo;
+            }
         }
+        return ret_val;
     }
 
-    public bool load_avilability()
+    public bool load_availability()
     {
         bool ret_val = false;
         if (File.Exists(auth_info_fname))
@@ -148,11 +174,11 @@ public class Authorize
         long time_elapsed = current_time - this.latest_time;
 
         BinaryReader br = new BinaryReader(File.Open(auth_info_fname, FileMode.Open));
-        double avilable_time = br.ReadDouble();
+        double available_time = br.ReadDouble();
         br.Close();
 
         BinaryWriter bw = new BinaryWriter(File.Open(auth_info_fname, FileMode.Truncate));
-        bw.Write(avilable_time - time_elapsed);
+        bw.Write(available_time - time_elapsed);
         bw.Flush();
         bw.Close();
 
