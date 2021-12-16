@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Net.NetworkInformation;
 
 struct extra_info{
-    double avail_time;
+    public double avail_time;
 }
 
 public enum ErrType {
@@ -24,8 +24,11 @@ public class Authorize
     private string RSA_pubkey = "";
     private string RSA_privkey = "";
 
-    bool available = false;
+    private extra_info exinfo;
+
     private long latest_time = 0;
+
+    public bool available = false;
 
 	public Authorize(string progname, string RSA_pubkey, string RSA_privkey)
 	{
@@ -38,7 +41,7 @@ public class Authorize
         user_AuthReq_Str = gen_authorise_request_str(progname);
         authorise_Code = SHA512encrypt(user_AuthReq_Str);
 
-        this.available = load_availability();
+        this.available = get_availability();
 	}
     
     static public string gen_authorise_request_str(string program_name)
@@ -132,6 +135,21 @@ public class Authorize
         return user_AuthReq_Str;
     }
 
+    private void read_exinfo()
+    {
+        BinaryReader br = new BinaryReader(File.Open(this.auth_info_fname, FileMode.Open));
+        this.exinfo.avail_time = br.ReadDouble();
+        br.Close();
+    }
+
+    private void write_exinfo()
+    {
+        BinaryWriter bw = new BinaryWriter(File.Open(auth_info_fname, FileMode.Truncate));
+        bw.Write(this.exinfo.avail_time);
+        bw.Flush();
+        bw.Close();
+    }
+
     public ErrType read_certfile(string cert_fname)
     {
         ErrType ret_val = ErrType.E_noerr;
@@ -155,14 +173,13 @@ public class Authorize
         return ret_val;
     }
 
-    public bool load_availability()
+    public bool get_availability()
     {
         bool ret_val = false;
         if (File.Exists(auth_info_fname))
         {
-            BinaryReader br = new BinaryReader(File.Open(auth_info_fname, FileMode.Open));
-            double time = br.ReadDouble();
-            if (time > 0)
+            read_exinfo();
+            if (this.exinfo.avail_time > 0)
                 ret_val = true;
         }
         return ret_val;
@@ -173,14 +190,11 @@ public class Authorize
         long current_time = Environment.TickCount / 1000;
         long time_elapsed = current_time - this.latest_time;
 
-        BinaryReader br = new BinaryReader(File.Open(auth_info_fname, FileMode.Open));
-        double available_time = br.ReadDouble();
-        br.Close();
+        read_exinfo();
 
-        BinaryWriter bw = new BinaryWriter(File.Open(auth_info_fname, FileMode.Truncate));
-        bw.Write(available_time - time_elapsed);
-        bw.Flush();
-        bw.Close();
+        this.exinfo.avail_time = this.exinfo.avail_time - time_elapsed;
+
+        write_exinfo();
 
         this.latest_time = current_time;
     }
