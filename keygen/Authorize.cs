@@ -163,7 +163,7 @@ public class Authorize
             bool parse_success = Double.TryParse(extra_info, out avail_time);
             if (parse_success)
             {
-
+                this.exinfo.avail_time += avail_time * 3600;
             }
             else
             {
@@ -192,7 +192,9 @@ public class Authorize
 
         read_exinfo();
 
-        this.exinfo.avail_time = this.exinfo.avail_time - time_elapsed;
+        this.exinfo.avail_time -= time_elapsed;
+        if (this.exinfo.avail_time < 0)
+            this.exinfo.avail_time = 0;
 
         write_exinfo();
 
