@@ -89,7 +89,6 @@ namespace Authorize
             return bytearr;
         }
 
-
         public string get_authorise_code()
         {
             return authorise_Code;
@@ -99,7 +98,6 @@ namespace Authorize
         {
             return user_AuthReq_Str;
         }
-
 
         public ErrType read_certfile(string cert_fname)
         {
