@@ -66,7 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorize.cs" />
+    <Compile Include="Authorize\Auth_core.cs" />
+    <Compile Include="Authorize\Auth_defs.cs" />
+    <Compile Include="Authorize\Auth_io.cs" />
     <Compile Include="GUI_Utils.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>

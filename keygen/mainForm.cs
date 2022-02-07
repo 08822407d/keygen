@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Authorize;
+
 namespace keygen
 {
     public partial class frm_Main : Form
@@ -25,13 +27,13 @@ namespace keygen
             //bw.Flush();
             //bw.Close();
 
-            Authorize test = new Authorize("keygen", pubkey, privkey);
+            Auth test = new Auth("keygen", pubkey, privkey);
             test.read_certfile("./cert.txt");
         }
 
         private void btn_genRSAkeys_Click(object sender, EventArgs e)
         {
-            String[] keys = Authorize.gen_RSAkeys();
+            String[] keys = Auth.gen_RSAkeys();
             tbx_RSAprivkey.Text = keys[0];
             tbx_RSApubkey.Text = keys[1];
         }
@@ -43,10 +45,10 @@ namespace keygen
             string cert_fname = "./cert.txt";
             StreamWriter sw = new StreamWriter(cert_fname);
             // encrypt identity code for user
-            string regcode = Authorize.SHA512encrypt(tbx_UserCode.Text);
+            string regcode = Auth.SHA512encrypt(tbx_UserCode.Text);
             // create RSA encoder and encrypt additional information
             //string pubkey = tbx_pubkey.Text;
-            byte[] exinfo = Authorize.RSAencrypt(pubkey, tbx_content.Text);
+            byte[] exinfo = Auth.RSAencrypt(pubkey, tbx_content.Text);
             string exi_str = BitConverter.ToString(exinfo).Replace("-", string.Empty);
             //byte[] ex_byte = Authorize.hexStr_to_byteArr(ex_str);
             //string info = Authorize.RSAdecrypt(privkey, ex_byte);
@@ -58,7 +60,7 @@ namespace keygen
 
             string[] lines = File.ReadAllLines(cert_fname);
             string authinfo_line = lines[1];
-            string authinfo_str = Authorize.RSAdecrypt(privkey, Authorize.hexStr_to_byteArr(authinfo_line));
+            string authinfo_str = Auth.RSAdecrypt(privkey, Auth.hexStr_to_byteArr(authinfo_line));
 
             GUI_Utils.controls_enable(grpBx_UserAuth);
         }
