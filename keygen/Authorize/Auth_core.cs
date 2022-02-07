@@ -122,32 +122,15 @@ namespace Authorize
             return ret_val;
         }
 
-        public bool get_availability()
+        public void update_time(TimeSpan ts)
         {
-            bool ret_val = false;
-            if (File.Exists(auth_info_fname))
-            {
-                load_exinfo();
-                if (this.exinfo.avail_time > 0)
-                    ret_val = true;
-            }
-            return ret_val;
-        }
-
-        public void update_time()
-        {
-            long current_time = Environment.TickCount / 1000;
-            long time_elapsed = current_time - this.latest_time;
+            double time_elapsed = ts.TotalSeconds;
 
             load_exinfo();
-
             this.exinfo.avail_time -= time_elapsed;
             if (this.exinfo.avail_time < 0)
                 this.exinfo.avail_time = 0;
-
             save_exinfo();
-
-            this.latest_time = current_time;
         }
     }
 }
