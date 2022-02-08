@@ -42,11 +42,13 @@ namespace Authorize
             init_exinfo(ref this.exinfo);
             if (!File.Exists(auth_info_fname))
             {
+                FileStream fs = File.Create(auth_info_fname);
+                fs.Close();
                 save_exinfo();
             }
             // create the authorise request code authorise system
-            user_AuthReq_Str = gen_authorise_request_str(progname);
-            authorise_Code = SHA512encrypt(user_AuthReq_Str);
+            this.user_AuthReq_Str = gen_authorise_request_str(progname);
+            this.authorise_Code = SHA512encrypt(user_AuthReq_Str);
         }
         
         private void init_exinfo(ref extra_info exinfo)
