@@ -12,15 +12,15 @@ namespace Authorize
     {
         private void load_exinfo()
         {
-            BinaryReader br = new BinaryReader(File.Open(this.auth_info_fname, FileMode.Open));
-            this.exinfo = read_exinfo(br);
+            BinaryReader br = new BinaryReader(File.Open(this._AuthInfo_File, FileMode.Open));
+            this._ExInfo = read_exinfo(br);
             br.Close();
         }
 
         private void save_exinfo()
         {
-            BinaryWriter bw = new BinaryWriter(File.Open(auth_info_fname, FileMode.Truncate));
-            write_exinfo(bw, this.exinfo);
+            BinaryWriter bw = new BinaryWriter(File.Open(this._AuthInfo_File, FileMode.Truncate));
+            write_exinfo(bw, this._ExInfo);
             bw.Flush();
             bw.Close();
         }

@@ -9,6 +9,11 @@ namespace Authorize
 {
     public partial class Auth
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program_name"></param>
+        /// <returns></returns>
         static public string gen_authorise_request_str(string program_name)
         {
             // get ticks from boot till now and ticks of DateTime
@@ -27,6 +32,11 @@ namespace Authorize
             return ret_val;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         static public string SHA512encrypt(string input)
         {
             SHA512 ident = SHA512.Create();
@@ -77,6 +87,11 @@ namespace Authorize
             return strconv.GetString(RSA.Decrypt(content, false));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hexstr"></param>
+        /// <returns></returns>
         static public byte[] hexStr_to_byteArr(string hexstr)
         {
             int len = hexstr.Length / 2;

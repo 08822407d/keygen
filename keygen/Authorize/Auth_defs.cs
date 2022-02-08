@@ -25,32 +25,43 @@ namespace Authorize
 
     public partial class Auth
     {
-        private string auth_info_fname = "./cert.bin";
-        private string user_AuthReq_Str;
-        private string authorise_Code;
+        private string _AuthInfo_File = "./cert.bin";
 
-        private string RSA_pubkey = "";
-        private string RSA_privkey = "";
+        private string _AuthReq_Code;
+        private string _Auth_Code;
 
-        private extra_info exinfo;
+        private string _RSA_pubkey = "";
+        private string _RSA_privkey = "";
 
-        public Auth(string progname, string RSA_pubkey, string RSA_privkey)
+        private extra_info _ExInfo;
+
+        public Auth(string progname, string _RSA_pubkey, string _RSA_privkey)
         {
-            this.RSA_pubkey = RSA_pubkey;
-            this.RSA_privkey = RSA_privkey;
+            this._RSA_pubkey = _RSA_pubkey;
+            this._RSA_privkey = _RSA_privkey;
 
-            init_exinfo(ref this.exinfo);
-            if (!File.Exists(auth_info_fname))
+            init_exinfo(ref this._ExInfo);
+            if (!File.Exists(_AuthInfo_File))
             {
-                FileStream fs = File.Create(auth_info_fname);
+                FileStream fs = File.Create(_AuthInfo_File);
                 fs.Close();
                 save_exinfo();
             }
             // create the authorise request code authorise system
-            this.user_AuthReq_Str = gen_authorise_request_str(progname);
-            this.authorise_Code = SHA512encrypt(user_AuthReq_Str);
+            this._AuthReq_Code = gen_authorise_request_str(progname);
+            this._Auth_Code = SHA512encrypt(_AuthReq_Code);
         }
         
+        public string User_AuthReq_Str
+        {
+            get => _AuthReq_Code;
+        }
+
+        public string get_userreq_code()
+        {
+            return _AuthReq_Code;
+        }
+
         private void init_exinfo(ref extra_info exinfo)
         {
             exinfo.avail_time = 0;

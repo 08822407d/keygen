@@ -28,7 +28,7 @@ namespace keygen
             //bw.Close();
 
             Auth test = new Auth("keygen", pubkey, privkey);
-            test.read_certfile("./cert.txt");
+            test.update_Availability("./cert.txt");
         }
 
         private void btn_genRSAkeys_Click(object sender, EventArgs e)
