@@ -13,7 +13,7 @@ namespace Authorize
 
         public ErrType update_Availability(string cert_fname)
         {
-            ErrType ret_val = ErrType.E_noerr;
+            ErrType ret_val = ErrType.E_NoErr;
             if (File.Exists(cert_fname))
             {
                 string[] lines = File.ReadAllLines(cert_fname);
@@ -24,12 +24,18 @@ namespace Authorize
                 bool parse_success = Double.TryParse(extra_info, out avail_time);
                 if (parse_success)
                 {
-                    this._ExInfo.avail_time += avail_time * 3600;
+                    load_AvailInfo();
+                    this._AvailInfo.avail_time += avail_time * 3600;
+                    save_AvailInfo();
                 }
                 else
                 {
-                    ret_val = ErrType.E_exinfo;
+                    ret_val = ErrType.E_AvailInfo;
                 }
+            }
+            else
+            {
+                ret_val = ErrType.E_NoFile;
             }
             return ret_val;
         }
@@ -38,11 +44,11 @@ namespace Authorize
         {
             double time_elapsed = ts.TotalSeconds;
 
-            load_exinfo();
-            this._ExInfo.avail_time -= time_elapsed;
-            if (this._ExInfo.avail_time < 0)
-                this._ExInfo.avail_time = 0;
-            save_exinfo();
+            load_AvailInfo();
+            this._AvailInfo.avail_time -= time_elapsed;
+            if (this._AvailInfo.avail_time < 0)
+                this._AvailInfo.avail_time = 0;
+            save_AvailInfo();
         }
     }
 }

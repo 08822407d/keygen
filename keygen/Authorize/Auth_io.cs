@@ -10,31 +10,29 @@ namespace Authorize
 {
     public partial class Auth
     {
-        private void load_exinfo()
+        private void load_AvailInfo()
         {
             BinaryReader br = new BinaryReader(File.Open(this._AuthInfo_File, FileMode.Open));
-            this._ExInfo = read_exinfo(br);
+            read_AvailInfo(br, ref this._AvailInfo);
             br.Close();
         }
 
-        private void save_exinfo()
+        private void save_AvailInfo()
         {
             BinaryWriter bw = new BinaryWriter(File.Open(this._AuthInfo_File, FileMode.Truncate));
-            write_exinfo(bw, this._ExInfo);
+            write_AvailInfo(bw, this._AvailInfo);
             bw.Flush();
             bw.Close();
         }
 
-        private extra_info read_exinfo(BinaryReader br)
+        private void read_AvailInfo(BinaryReader br, ref Avail_Info info)
         {
-            extra_info ret_val;
-            ret_val.avail_time = br.ReadDouble();
-            return ret_val;
+            info.avail_time = br.ReadDouble();
         }
 
-        private void write_exinfo(BinaryWriter bw, extra_info exi)
+        private void write_AvailInfo(BinaryWriter bw, Avail_Info info)
         {
-            bw.Write(exi.avail_time);
+            bw.Write(info.avail_time);
         }
     }
 }
