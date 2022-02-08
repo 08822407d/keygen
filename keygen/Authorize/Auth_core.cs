@@ -3,34 +3,11 @@ using System.Text;
 
 using System.IO;
 using System.Security.Cryptography;
-using System.Net.NetworkInformation;
 
 namespace Authorize
 {
     public partial class Auth
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="program_name"></param>
-        /// <returns></returns>
-        static public string gen_authorise_request_str(string program_name)
-        {
-            // get ticks from boot till now and ticks of DateTime
-            string bootticks_hex = Environment.TickCount.ToString("X");
-            string dateticks_hex = DateTime.Now.Ticks.ToString("X");
-            // get MAC address
-            NetworkInterface ni = NetworkInterface.GetAllNetworkInterfaces()[0];
-            string macaddr_hex = ni.GetPhysicalAddress().ToString();
-            // convert program_name ASCII code to hex format
-            string tmp_val = BitConverter.ToString(Encoding.ASCII.GetBytes(program_name));
-            string progname_hex = tmp_val.Replace("-", string.Empty);
-
-            // concatenate all these strings
-            string ret_val = progname_hex + macaddr_hex + bootticks_hex + dateticks_hex;
-
-            return ret_val;
-        }
 
         /// <summary>
         /// 

@@ -22,13 +22,6 @@ namespace keygen
         public frm_Main()
         {
             InitializeComponent();
-            //BinaryWriter bw = new BinaryWriter(File.Open("./cert.bin", FileMode.Create));
-            //bw.Write((double)101.202);
-            //bw.Flush();
-            //bw.Close();
-
-            Auth test = new Auth("keygen", pubkey, privkey);
-            test.update_Availability("./cert.txt");
         }
 
         private void btn_genRSAkeys_Click(object sender, EventArgs e)
