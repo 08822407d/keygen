@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Authorize;
+using Utils;
 
 namespace keygen
 {
@@ -21,14 +22,15 @@ namespace keygen
 
 		public CfgPack Cfgs = null;
 
+		AuthData currAD = null;
+		string currADname = null;
+
         public frm_Main()
         {
             InitializeComponent();
 			Cfgs = new CfgPack();
 
-			dgv_regdata.ColumnCount = 2;
-			dgv_regdata.Columns[0].Name = "属性名称";
-			dgv_regdata.Columns[1].Name = "属性值";
+			cmbbx_Acfgs.SelectedItem = this.currADname;
         }
 
         private void btn_genCert_Click(object sender, EventArgs e)
@@ -57,20 +59,12 @@ namespace keygen
 		private void btn_RefreshRSA_Click(object sender, EventArgs e)
 		{
             String[] keys = Auth.gen_RSAkeys();
-            //tbx_RSAprivkey.Text = keys[0];
-            //tbx_RSApubkey.Text = keys[1];
+			this.currAD.RSA_PrivKey =
+			tbx_RSApriv.Text = keys[0];
+			this.currAD.RSA_PubKey =
+			tbx_RSApub.Text = keys[1];
 
-			DataGridViewRow RSA_priv_row;
-			DataGridViewRow RSA_pub_row;
-			for (int i = 0; i < dgv_regdata.Rows.Count; i++)
-			{
-				DataGridViewRow row = dgv_regdata.Rows[i];
-				if (row.Cells[0].Equals("RSA_private"))
-					RSA_priv_row = row;
-				if (row.Cells[0].Equals("RSA_public"))
-					RSA_pub_row = row;
-			}
-
+			resetDataGrid();
 		}
 
 		private void btn_Save_Click(object sender, EventArgs e)
@@ -85,7 +79,48 @@ namespace keygen
 
 		private void btn_NewCfg_Click(object sender, EventArgs e)
 		{
+			frmTXTInput wTI = new frmTXTInput();
+			wTI.ShowDialog();
 
+			string newName = wTI.ret_val;
+			if (newName == null)
+			{
+				MessageBox.Show("未输入名称, 取消新建配置");
+				return;
+			}
+			else
+			{
+				this.currAD = new AuthData();
+				this.currADname = newName;
+				Cfgs.addAcfg(this.currADname, this.currAD);
+				cmbbx_Acfgs.Items.Add(this.currADname + " （新建）");
+
+				MessageBox.Show("新建配置:" + this.currADname + ", 采用默认配置模板");
+			}
+		}
+
+		private void resetDataGrid()
+		{
+			dgv_regdata.Rows.Clear();
+		}
+
+		private void cmbbx_Acfgs_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			string name = cmbbx_Acfgs.SelectedItem.ToString();
+			AuthData acfg = Cfgs.getAcfg(name);
+			if (acfg != null)
+			{
+				this.currADname = name;
+				this.currAD = acfg;
+
+				gbx_rsa.Enabled = true;
+				gbx_authgroup.Enabled = true;
+			}
+			else
+			{
+				gbx_rsa.Enabled = false;
+				gbx_rsa.Enabled = false;
+			}
 		}
 	}
 }
