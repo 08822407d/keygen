@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Authorize;
-using Utils;
 
 namespace keygen
 {
@@ -34,8 +33,6 @@ namespace keygen
 
         private void btn_genCert_Click(object sender, EventArgs e)
         {
-            GUI_Utils.controls_disable(grpBx_UserAuth);
-
             string cert_fname = "./cert.txt";
             StreamWriter sw = new StreamWriter(cert_fname);
             // encrypt identity code for user
@@ -55,8 +52,6 @@ namespace keygen
             string[] lines = File.ReadAllLines(cert_fname);
             string authinfo_line = lines[1];
             string authinfo_str = Auth.RSAdecrypt(privkey, Auth.hexStr_to_byteArr(authinfo_line));
-
-            GUI_Utils.controls_enable(grpBx_UserAuth);
         }
 
 		private void btn_RefreshRSA_Click(object sender, EventArgs e)
