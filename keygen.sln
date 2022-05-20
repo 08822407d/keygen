@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.1401
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "keygen", "keygen\keygen.csproj", "{C24B034A-2682-4796-8888-1EBAC96B2974}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CCE6C65D-F2FD-4411-ADCC-985F2E414E30} = {CCE6C65D-F2FD-4411-ADCC-985F2E414E30}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libUtils", "..\MyWinLibs\libUtils\libUtils.csproj", "{CCE6C65D-F2FD-4411-ADCC-985F2E414E30}"
 EndProject

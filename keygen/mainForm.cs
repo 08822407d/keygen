@@ -30,7 +30,8 @@ namespace keygen
             InitializeComponent();
 			Cfgs = new CfgPack();
 
-			cmbbx_Acfgs.SelectedItem = this.currADname;
+			gbx_rsa.Enabled = false;
+			gbx_authgroup.Enabled = false;
         }
 
         private void btn_genCert_Click(object sender, EventArgs e)
@@ -69,7 +70,7 @@ namespace keygen
 
 		private void btn_Save_Click(object sender, EventArgs e)
 		{
-
+			this.Cfgs.flushAC();
 		}
 
 		private void btn_Cancel_Click(object sender, EventArgs e)
@@ -93,7 +94,7 @@ namespace keygen
 				this.currAD = new AuthData();
 				this.currADname = newName;
 				Cfgs.addAcfg(this.currADname, this.currAD);
-				cmbbx_Acfgs.Items.Add(this.currADname + " （新建）");
+				cmbbx_Acfgs.Items.Add(this.currADname);
 
 				MessageBox.Show("新建配置:" + this.currADname + ", 采用默认配置模板");
 			}
